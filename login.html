@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="api-base" content="https://hospital-management-gp1l.onrender.com" />
+    <title>Login - Hospital Management System</title>
+    <!-- Tailwind CSS for modern utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI for beautiful UI components on top of Tailwind -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="style.css" />
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#3b82f6",
+              secondary: "#10b981",
+              accent: "#8b5cf6",
+              neutral: "#3d4451",
+              "base-100": "#ffffff",
+            },
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+        // In browser environment, DaisyUI is loaded via CDN
+        daisyui: {
+          themes: ["light"],
+        },
+      };
+    </script>
+  </head>
+
+  <body class="min-h-screen bg-gray-50">
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 shadow-md sticky top-0 z-50">
+      <div class="container mx-auto">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li><a href="./index.html" class="font-medium">Home</a></li>
+              <li>
+                <a href="./index.html#services" class="font-medium">Services</a>
+              </li>
+              <li>
+                <a href="./index.html#contact" class="font-medium"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <a href="./index.html" class="flex items-center">
+            <img src="img/logo.png" alt="Hospital Logo" class="h-10" />
+            <span
+              class="text-xl font-bold ml-2 text-primary hidden md:inline-block"
+              >MediCare</span
+            >
+          </a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1">
+            <li><a href="./index.html" class="font-medium">Home</a></li>
+            <li>
+              <a href="./index.html#services" class="font-medium">Services</a>
+            </li>
+            <li>
+              <a href="./index.html#contact" class="font-medium">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+        <div class="navbar-end">
+          <a href="./register.html" class="btn btn-ghost">Sign Up</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Section -->
+    <div class="hero min-h-[80vh] bg-base-100">
+      <div class="hero-content flex-col lg:flex-row-reverse w-full max-w-5xl">
+        <div class="text-center lg:text-left lg:w-1/2 px-6">
+          <h1 class="text-4xl font-bold text-primary">Login now!</h1>
+          <p class="py-6">
+            Welcome back to MediCare Hospital Management System. Please login to
+            access your account and manage your healthcare needs efficiently.
+          </p>
+          <img
+            src="img/docDetails image.png"
+            alt="Healthcare Illustration"
+            class="max-w-sm mx-auto hidden lg:block"
+          />
+        </div>
+        <div
+          class="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100 lg:w-1/2"
+        >
+          <div class="card-body">
+            <div class="alert alert-error hidden" id="error-message">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>Invalid credentials. Please try again.</span>
+            </div>
+            <form id="login-form">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Username</span>
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  placeholder="username"
+                  class="input input-bordered"
+                  required
+                />
+              </div>
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text">Password</span>
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="password"
+                  class="input input-bordered"
+                  required
+                />
+                <label class="label">
+                  <a href="#" class="label-text-alt link link-hover"
+                    >Forgot password?</a
+                  >
+                </label>
+              </div>
+              <div class="form-control mt-6">
+                <button type="submit" id="login-submit" class="btn btn-primary">Login</button>
+              </div>
+            </form>
+            <div class="divider">OR</div>
+            <div class="text-center">
+              <p>
+                Don't have an account?
+                <a href="./register.html" class="text-primary hover:underline"
+                  >Register here</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer p-10 bg-neutral text-neutral-content mt-10">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <img src="img/logo.png" alt="Hospital Logo" class="h-12 mb-4" />
+            <p class="text-base-100">
+              MediCare Hospital Management<br />Providing reliable healthcare
+              since 1992
+            </p>
+          </div>
+          <div>
+            <span class="footer-title">Services</span>
+            <a class="link link-hover">Emergency Care</a>
+            <a class="link link-hover">Cardiology</a>
+            <a class="link link-hover">Neurology</a>
+            <a class="link link-hover">Orthopedics</a>
+          </div>
+          <div>
+            <span class="footer-title">Company</span>
+            <a class="link link-hover">About us</a>
+            <a class="link link-hover">Contact</a>
+            <a class="link link-hover">Careers</a>
+            <a class="link link-hover">Press kit</a>
+          </div>
+          <div>
+            <span class="footer-title">Legal</span>
+            <a class="link link-hover">Terms of use</a>
+            <a class="link link-hover">Privacy policy</a>
+            <a class="link link-hover">Cookie policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <div class="footer footer-center p-4 bg-base-300 text-base-content">
+      <div>
+        <p>
+          Copyright © 2023 - All rights reserved by MediCare Hospital Management
+        </p>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/login.js"></script>
+  </body>
+</html>

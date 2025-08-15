@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="api-base" content="https://hospital-management-gp1l.onrender.com" />
+  <title>Doctor Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.0/dist/full.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="docDetails.css">
+  <!-- TokenStore will be accessed from docDetails.js -->
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navbar Section Begin -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+    <div class="navbar container mx-auto px-4 py-2">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+          </label>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./index.html#services">Services</a></li>
+            <li><a href="./index.html#contact">Contact Us</a></li>
+          </ul>
+        </div>
+        <a href="./index.html" class="flex items-center">
+          <img src="img/logo.png" alt="Hospital Logo" class="h-10">
+        </a>
+      </div>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 text-base font-medium">
+          <li><a href="./index.html" class="hover:text-primary">Home</a></li>
+          <li><a href="./index.html#services" class="hover:text-primary">Services</a></li>
+          <li><a href="./index.html#contact" class="hover:text-primary">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="navbar-end" id="nav-login-register">
+        <a href="./register.html" class="btn btn-ghost btn-sm rounded-btn mr-2 hover:bg-primary hover:text-white">Sign Up</a>
+        <a href="./login.html" class="btn btn-primary btn-sm rounded-btn text-white">Login</a>
+      </div>
+      <div class="navbar-end hidden" id="nav-profile">
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-ghost btn-circle avatar" id="profile-btn">
+            <div class="w-10 rounded-full">
+              <img src="img/avatar.png" alt="Profile" />
+            </div>
+          </label>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a>My Profile</a></li>
+            <li><a id="logout-btn">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Navbar Section End -->
+
+  <!-- Main Section Begin -->
+  <main class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8" id="doc-info">
+      <!-- Doctor info will be loaded here -->
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-3xl font-bold text-center mb-8 text-primary">Patient Reviews</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="reviews-container">
+        <!-- Reviews will be loaded here -->
+      </div>
+    </div>
+  </main>
+  <!-- Main Section End -->
+
+  <!-- Modal -->
+  <div id="appointment-modal" class="modal">
+    <div class="modal-box max-w-md">
+      <h3 class="font-bold text-lg mb-4">Appointment Information</h3>
+      <form>
+        <div class="form-control mb-4">
+          <label class="label cursor-pointer justify-start gap-2">
+            <input type="radio" name="status" id="physical" value="Physical" class="radio radio-primary" checked>
+            <span class="label-text">Physical</span>
+          </label>
+          <label class="label cursor-pointer justify-start gap-2">
+            <input type="radio" name="status" id="online" value="Online" class="radio radio-primary">
+            <span class="label-text">Online</span>
+          </label>
+        </div>
+
+        <div class="form-control mb-4">
+          <input type="text" class="input input-bordered w-full" placeholder="Type your symptoms" name="symptom" id="symptom">
+        </div>
+
+        <div class="form-control mb-4">
+          <select class="select select-bordered w-full" id="select_time">
+            <option disabled selected>Available time</option>
+          </select>
+        </div>
+
+        <div class="modal-action">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('appointment-modal').classList.remove('modal-open')">Close</button>
+          <button type="button" class="btn btn-primary" id="submite-appointment">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Footer Section Begin -->
+  <footer class="bg-gray-900 text-white pt-12 pb-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+        <div>
+          <img src="img/footer-logo.png" alt="Hospital Logo" class="h-12 mb-4">
+          <p class="text-gray-400 mb-4">Providing quality healthcare services for you and your family.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h5 class="font-bold text-lg mb-4">Company</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">About Us</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Departments</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Find a Doctor</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">FAQ</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">News</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h5 class="font-bold text-lg mb-4">Quick Links</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Facial Fillers</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Breast Surgery</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Body Lifts</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Face & Neck</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Fat Reduction</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h5 class="font-bold text-lg mb-4">Contact Us</h5>
+          <ul class="space-y-2">
+            <li class="flex items-start space-x-3">
+              <i class="fas fa-map-marker-alt mt-1 text-primary"></i>
+              <span class="text-gray-400">Los Angeles Gournadi, 1230 Bariasl</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <i class="fas fa-phone-alt text-primary"></i>
+              <span class="text-gray-400">1-677-124-44227</span>
+            </li>
+            <li class="flex items-center space-x-3">
+              <i class="fas fa-envelope text-primary"></i>
+              <span class="text-gray-400">support@hospital.com</span>
+            </li>
+          </ul>
+          
+          <div class="mt-4">
+            <form class="flex">
+              <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary">
+              <button type="submit" class="bg-primary hover:bg-primary-dark px-4 py-2 rounded-r-md transition-colors duration-300">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 pt-6">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm">
+            &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | Hospital Management
+          </p>
+          <div class="flex space-x-6 mt-4 md:mt-0">
+            <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors duration-300">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <!-- Add scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daisyui@3.5.0/dist/full.js"></script>
+
+  <script>
+    // This script will be replaced by the updateAuthUI function in docDetails.js
+    // The appointment button event listeners are now handled in docDetails.js
+  </script>
+
+  <script src="./js/docDetails.js"></script>
+</body>
+
+</html>
